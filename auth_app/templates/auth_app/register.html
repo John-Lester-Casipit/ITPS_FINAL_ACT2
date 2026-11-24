@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | VENDORA</title>
+  <style>
+    :root{
+      --ink:#1c2a33; --muted:#5d6b73; --bg:#eef2ee; --green:#1f6f46; --green-dark:#154d31;
+      --sign:#f4b400; --red:#b3261e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;
+      font-family:"Segoe UI",Tahoma,Verdana,sans-serif;line-height:1.5;color:var(--ink);
+      background:
+        linear-gradient(rgba(28,42,51,.72), rgba(28,42,51,.72)),
+        url("{% static 'images/tindahanbg.jpeg' %}") center / cover no-repeat fixed;
+      background-color:var(--ink)}
+    :focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+
+    .login-card{width:100%;max-width:420px;background:#fff;border:2px solid var(--ink);
+      border-radius:4px 14px 14px 4px;padding:1.8rem 1.8rem 1.6rem;box-shadow:5px 5px 0 #0e171d}
+    h1{font-family:"Franklin Gothic Medium","Arial Narrow",Arial,sans-serif;font-size:1.5rem;margin:0 0 .3rem;line-height:1.2;color:var(--green-dark)}
+    .muted{color:var(--muted);margin:0 0 1rem;font-size:.95rem}
+    .error{color:var(--red);font-weight:700;margin:.2rem 0 .6rem;font-size:.9rem}
+
+    label{display:block;font-weight:700;margin:.9rem 0 .3rem;font-size:.95rem}
+    input[type=text],input[type=password],input[type=email]{width:100%;font:inherit;padding:.65rem .8rem;
+      border:2px solid var(--ink);border-radius:6px;background:#fff;color:var(--ink)}
+    input:focus{outline:3px solid var(--sign);outline-offset:1px;border-color:var(--ink)}
+    .help{display:block;color:var(--muted);font-size:.8rem;margin-top:.3rem}
+    .help ul{margin:.2rem 0 0;padding-left:1.1rem}
+
+    .btn{display:block;width:100%;font:inherit;font-weight:700;text-align:center;text-decoration:none;cursor:pointer;
+      border-radius:6px;padding:.7rem 1rem;transition:background .15s,color .15s}
+    .btn-primary{margin-top:1.3rem;background:var(--green);color:#fff;border:2px solid var(--green)}
+    .btn-primary:hover{background:var(--green-dark);border-color:var(--green-dark)}
+
+    .switch{text-align:center;margin:1.1rem 0 0;font-size:.95rem;color:var(--muted)}
+    .switch a{color:var(--green-dark);font-weight:700}
+
+    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+
+<body>
+  <main class="login-card">
+    <a href="{% url 'dashboard' %}" style="display:block;line-height:0;text-align:center;margin:0 0 1.2rem;">
+      <img src="{% static 'images/vendoralogo.png' %}" alt="VENDORA" style="height:44px;width:auto;display:inline-block;">
+    </a>
+
+    <h1>Create account</h1>
+    <p class="muted">Pick a username and password to start using your dashboard.</p>
+
+    {% for error in form.non_field_errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for error in field.errors %}
+          <p class="error">{{ error }}</p>
+        {% endfor %}
+        {% if field.help_text %}
+          <small class="help">{{ field.help_text|safe }}</small>
+        {% endif %}
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+
+    <p class="switch">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+  </main>
+</body>
+</html>

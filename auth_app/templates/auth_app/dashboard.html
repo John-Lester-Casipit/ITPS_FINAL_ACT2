@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | VENDORA</title>
+  <style>
+    :root{
+      --ink:#1c2a33; --muted:#5d6b73; --bg:#eef2ee; --green:#1f6f46; --green-dark:#154d31;
+      --sign:#f4b400; --red:#b3261e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;
+      font-family:"Segoe UI",Tahoma,Verdana,sans-serif;line-height:1.5;color:var(--ink);
+      background:
+        linear-gradient(rgba(28,42,51,.72), rgba(28,42,51,.72)),
+        url("{% static 'images/tindahanbg.jpeg' %}") center / cover no-repeat fixed;
+      background-color:var(--ink)}
+    :focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+
+    .login-card{width:100%;max-width:480px;background:#fff;border:2px solid var(--ink);
+      border-radius:4px 14px 14px 4px;padding:1.8rem 1.8rem 1.6rem;box-shadow:5px 5px 0 #0e171d}
+    .signboard{background:var(--sign);color:var(--ink);font-family:"Arial Black",Impact,sans-serif;letter-spacing:.04em;
+      text-align:center;padding:.35rem .85rem;font-size:.8rem;border:3px solid var(--ink);border-radius:6px;
+      box-shadow:2px 2px 0 #0e171d;width:max-content;margin:0 auto 1rem}
+    h1{font-family:"Franklin Gothic Medium","Arial Narrow",Arial,sans-serif;font-size:1.5rem;margin:0 0 .3rem;line-height:1.2;color:var(--green-dark)}
+    .muted{color:var(--muted);margin:0 0 1.2rem;font-size:.95rem}
+
+    .info-box{border:2px solid var(--ink);border-radius:6px;background:var(--bg);padding:.9rem 1rem;margin-bottom:1.2rem}
+    .info-row{padding:.45rem 0;border-bottom:1px solid #d4ddd7;font-size:.95rem}
+    .info-row:last-child{border-bottom:none;padding-bottom:0}
+    .info-row:first-child{padding-top:0}
+    .info-label{font-weight:700;color:var(--ink);display:inline-block;min-width:105px}
+
+    .btn{display:block;width:100%;font:inherit;font-weight:700;text-align:center;text-decoration:none;cursor:pointer;
+      border-radius:6px;padding:.7rem 1rem;transition:background .15s,color .15s}
+    .btn-logout{margin-top:1.2rem;background:var(--red);color:#fff;border:2px solid var(--ink);box-shadow:3px 3px 0 #0e171d}
+    .btn-logout:hover{background:#8e1d17}
+
+    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+
+<body>
+  <main class="login-card">
+    <a href="{% url 'dashboard' %}" style="display:block;line-height:0;text-align:center;margin:0 0 1rem;">
+      <img src="{% static 'images/vendoralogo.png' %}" alt="VENDORA" style="height:44px;width:auto;display:inline-block;">
+    </a>
+
+    <div class="signboard">ACCOUNT DASHBOARD</div>
+
+    <h1>Welcome, {{ request.user.first_name|default:request.user.username }}!</h1>
+    <p class="muted">You are currently signed in to your account.
+        This is only to check that you are inside of a website.
+    </p>
+
+    <div class="info-box">
+      <div class="info-row">
+        <span class="info-label">Username:</span> {{ request.user.username }}
+      </div>
+      <div class="info-row">
+        <span class="info-label">Full Name:</span> {{ request.user.first_name }} {{ request.user.last_name }}
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email:</span> {{ request.user.email }}
+      </div>
+    </div>
+
+    <a href="{% url 'logout' %}" class="btn btn-logout">Logout</a>
+  </main>
+</body>
+</html>
